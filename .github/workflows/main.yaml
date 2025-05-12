@@ -1,0 +1,28 @@
+name: Trigger from Port
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Project name from Port'
+        required: true
+      run_id:
+        description: 'Port Run ID'
+        required: true
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo inputs
+        run: |
+          echo "Project: ${{ github.event.inputs.project_name }}"
+          echo "Run ID: ${{ github.event.inputs.run_id }}"
+
+      - name: Update status in Port (optional)
+        run: |
+          curl -X PATCH \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.PORT_API_TOKEN }}" \
+            -d '{"status":"SUCCESS", "message":{"info":"Triggered from GitHub Actions"}}' \
+            "https://api.getport.io/v1/actions/runs/${{ github.event.inputs.run_id }}"
