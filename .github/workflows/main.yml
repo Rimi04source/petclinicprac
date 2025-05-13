@@ -6,6 +6,9 @@ on:
       project_name:
         description: 'Name of the project (from Port)'
         required: true
+      run_id:
+        description: 'Port run ID'
+        required: true
 
 jobs:
   trigger-from-port:
@@ -14,15 +17,15 @@ jobs:
       - name: Echo inputs
         run: |
           echo "Project Name: ${{ github.event.inputs.project_name }}"
+          echo "Run ID: ${{ github.event.inputs.run_id }}"
 
-      # This step updates the run status back to Port
       - name: Update Run Status to Port
         env:
-          PORT_API_TOKEN: ${{ secrets.PORT_API_TOKEN }} # Set the Port API token in GitHub secrets
+          PORT_API_TOKEN: ${{ secrets.PORT_API_TOKEN }}
+          PORT_RUN_ID: ${{ github.event.inputs.run_id }}
         run: |
           completedAt=$(date -u +%Y-%m-%dT%H:%M:%S.000Z)
 
-          # Send a PATCH request to Port API to update the run status
           curl -X PATCH \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $PORT_API_TOKEN" \
