@@ -9,73 +9,30 @@ on:
       run_id:
         description: 'Port run ID'
         required: true
-      programing_language:
-        description: 'Programming Language'
-        required: false
-      application_type:
-        description: 'Application Type'
-        required: false
-      runtime_platform:
-        description: 'Runtime Platform'
-        required: false
-      visibility:
-        description: 'Project Visibility'
-        required: false
-      state:
-        description: 'Project State'
-        required: false
-      repo_name:
-        description: 'Repository Name'
-        required: false
-      project_owner:
-        description: 'Project Owner'
-        required: false
-      admin_user_email:
-        description: 'Admin Email'
-        required: false
-      reviewer_user_email:
-        description: 'Reviewer Email'
-        required: false
 
 jobs:
   trigger-from-port:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo all inputs for debugging
+      - name: Echo inputs
         run: |
           echo "Project Name: ${{ github.event.inputs.project_name }}"
           echo "Run ID: ${{ github.event.inputs.run_id }}"
-          echo "Programming Language: ${{ github.event.inputs.programing_language }}"
-          echo "Application Type: ${{ github.event.inputs.application_type }}"
-          echo "Runtime Platform: ${{ github.event.inputs.runtime_platform }}"
-          echo "Visibility: ${{ github.event.inputs.visibility }}"
-          echo "State: ${{ github.event.inputs.state }}"
-          echo "Repository Name: ${{ github.event.inputs.repo_name }}"
-          echo "Project Owner: ${{ github.event.inputs.project_owner }}"
-          echo "Admin Email: ${{ github.event.inputs.admin_user_email }}"
-          echo "Reviewer Email: ${{ github.event.inputs.reviewer_user_email }}"
-          echo "Port Context Run ID: ${{ github.event.inputs.port_context.runId }}"
-          echo "Port Context Blueprint: ${{ github.event.inputs.port_context.blueprint }}"
 
-      - name: Perform the Actual Job
-        run: |
-          echo "Running job with inputs..."
-          # Add your actual steps here, like building, testing, etc.
-          
       - name: Update Run Status to Port
         env:
           PORT_API_TOKEN: ${{ secrets.PORT_API_TOKEN }}
           PORT_RUN_ID: ${{ github.event.inputs.run_id }}
         run: |
           completedAt=$(date -u +%Y-%m-%dT%H:%M:%S.000Z)
-          echo "Sending run status back to Port..."
+
           curl -X PATCH \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $PORT_API_TOKEN" \
             -d "{
-                  \"status\": \"SUCCESS\",
-                  \"message\": {
-                    \"run_status\": \"Completed at $completedAt\"
-                  }
-                }" \
+              \"status\": \"SUCCESS\",
+              \"message\": {
+                \"run_status\": \"Completed at $completedAt\"
+              }
+            }" \
             "https://api.getport.io/v1/actions/runs/$PORT_RUN_ID"
