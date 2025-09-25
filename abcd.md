@@ -7,7 +7,7 @@ These inputs are mandatory for a successful deployment (enforced by module preco
 
 | Name | Type | Values | Description |
 |--|--|--|--|
-| `gso_logs_storage_account_id` | `string` | Example: `/subscriptions/{SUB}/resourceGroups/{RG}/providers/Microsoft.Storage/storageAccounts/{NAME}` | Storage account ARM ID used for control-plane diagnostics streaming. Must be non-empty. |
+| `gso_logs_storage_account_id` | `string` | Example: `/subs/.../storageAccounts/{NAME}` | Storage account ARM ID used for control-plane diagnostics streaming. Must be non-empty. Format: `/subscriptions/{SUB}/resourceGroups/{RG}/providers/Microsoft.Storage/storageAccounts/{NAME}`. |
 
 ## Optional
 
