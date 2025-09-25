@@ -42,8 +42,8 @@ These variables enforce security policies or architecture requirements through t
 
 | Name | Type | Values | Default | Description |
 |--|--|--|--|--|
-| `aks_security` | `object` |  | `{ private_cluster_enabled = true, private_cluster_public_fqdn_enabled = false, local_account_disabled = true, host_encryption_enabled = true }` | Enforced by EP_AKS_100 and EP_AKS_101 (private cluster, no public FQDN) and IP_AKS_101 (disable local accounts). |
-| `policy` | `object` |  | `{ azure_policy_enabled = true, kubernetes_assignments = { enabled = false, definition_ids = [] } }` | Enforced by requirements to keep Azure Policy enabled unless an exception is approved. |
+| `aks_security` | `object` | `private_cluster_enabled` in `true`,`false`; `private_cluster_public_fqdn_enabled` in `true`,`false`; `local_account_disabled` in `true`,`false`; `host_encryption_enabled` in `true`,`false` | `{ private_cluster_enabled = true, private_cluster_public_fqdn_enabled = false, local_account_disabled = true, host_encryption_enabled = true }` | Enforced by EP_AKS_100 and EP_AKS_101 (private cluster, no public FQDN) and IP_AKS_101 (disable local accounts). |
+| `policy` | `object` | `azure_policy_enabled` in `true`,`false`; `kubernetes_assignments.enabled` in `true`,`false`; `kubernetes_assignments.definition_ids` as list(string) | `{ azure_policy_enabled = true, kubernetes_assignments = { enabled = false, definition_ids = [] } }` | Enforced by requirements to keep Azure Policy enabled unless an exception is approved. |
 
 
 
