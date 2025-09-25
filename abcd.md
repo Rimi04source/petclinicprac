@@ -3,7 +3,7 @@
 You can find below all variables that are part of this module.
 
 ## Required
-These inputs are mandatory for a successful deployment (enforced by module preconditions). Defaults shown for some are placeholders and must be overridden for your environment.
+These inputs are mandatory for a successful deployment (enforced by module preconditions). Defaults in examples are placeholders and must be overridden for your environment.
 
 | Name | Type | Values | Description |
 |--|--|--|--|
@@ -21,7 +21,7 @@ These variables are available for user to change in order to reach the desired c
 | `kubernetes_version` | `string` | Examples: `1.29.7`, `1.28.11` | `null` | Control plane version; `null` lets Azure select the latest allowed version. |
 | `support_plan` | `string` | `KubernetesOfficial`, `AKSLongTermSupport` | `"KubernetesOfficial"` | AKS support plan. |
 | `tags` | `map(string)` | Example: `{ environment = "prod", owner = "platform" }` | `{}` | Common tags merged into all managed resources. |
-| `aks_identity` | `object` |  | `{ type = "SystemAssigned", user_assigned = { id = "", name = "aks-identity" }, workload_identity_enabled = true, oidc_issuer_enabled = true }` | Control plane managed identity configuration and Workload Identity (OIDC) toggles. `type` must be `SystemAssigned` or `UserAssigned` (Service Principal not allowed). |
+| `aks_identity` | `object` |  | `{ type = "SystemAssigned", user_assigned = { id = "", name = "aks-identity", tags = {} }, workload_identity_enabled = true, oidc_issuer_enabled = true }` | Control plane managed identity configuration and Workload Identity (OIDC) toggles. `type` must be `SystemAssigned` or `UserAssigned` (Service Principal not allowed). |
 | `aad_rbac` | `object` |  | `{ admin_group_object_ids = [], azure_rbac_enabled = false, tenant_id = "" }` | Azure AD admin groups and whether to enable Azure RBAC for Kubernetes. |
 | `storage_profile` | `object` |  | `{ blob_driver_enabled = true, disk_driver_enabled = true, file_driver_enabled = true, snapshot_controller_enabled = true }` | Controls AKS storage drivers. |
 | `os_profiles` | `object` |  | `{ linux = { enabled = false, admin_username = "azureuser", ssh_keys = [] }, windows = { enabled = false, admin_username = "azureuser", admin_password = "" } }` | Linux/Windows local admin credentials. |
@@ -44,9 +44,6 @@ These defaults back GSO mandates via resource settings and/or preconditions. The
 |--|--|--|--|--|
 | `aks_security` | `object` |  | `{ private_cluster_enabled = true, private_cluster_public_fqdn_enabled = false, local_account_disabled = true, host_encryption_enabled = true }` | Enforced by EP_AKS_100 and EP_AKS_101 (private cluster, no public FQDN) and IP_AKS_101 (disable local accounts). Host encryption defaults to true for node pools. |
 | `policy` | `object` |  | `{ azure_policy_enabled = true, kubernetes_assignments = { enabled = false, definition_ids = [] } }` | Enforced by requirements to keep Azure Policy enabled unless an exception is approved. |
-
-
-
 
 
 
